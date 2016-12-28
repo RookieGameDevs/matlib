@@ -59,6 +59,6 @@ def build(bld):
     # build library
     bld.stlib(
         target='matlib',
-        source=bld.path.ant_glob('*.c'),
+        source=bld.path.ant_glob('src/**/*.c'),
         uselib=deps,
         **kwargs)
