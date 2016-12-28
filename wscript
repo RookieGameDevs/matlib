@@ -61,4 +61,7 @@ def build(bld):
         target='matlib',
         source=bld.path.ant_glob('src/**/*.c'),
         uselib=deps,
+        install_path='${PREFIX}/lib',
         **kwargs)
+
+    bld.install_files('${PREFIX}/include', ['src/matlib.h'])
