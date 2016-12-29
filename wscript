@@ -19,6 +19,7 @@ def configure(cfg):
     cfg.env.append_unique('CFLAGS', '-std=c99')
     cfg.env.append_unique('CFLAGS', '-Wall')
     cfg.env.append_unique('CFLAGS', '-Werror')
+    cfg.env.append_unique('CFLAGS', '-fPIC')
 
     if cfg.options.build_type == 'debug':
         cfg.env.append_unique('CFLAGS', '-g')
