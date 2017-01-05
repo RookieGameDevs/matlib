@@ -58,9 +58,9 @@ def build(bld):
         kwargs['framework'] = ['Accelerate']
 
     # build library
-    bld.stlib(
+    bld.shlib(
         target='mat',
-        source=bld.path.ant_glob('src/**/*.c'),
+        source=bld.path.ant_glob('src/**/*.c', excl=['src/python']),
         uselib=deps,
         install_path='${PREFIX}/lib',
         **kwargs)
