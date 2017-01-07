@@ -1,8 +1,8 @@
 """Mat class tests."""
 from .util import assert_float_equal
 from math import pi
-from matlib import Mat
-from matlib import Vec
+from matlib.mat import Mat
+from matlib.vec import Vec
 import pytest
 
 

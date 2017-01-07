@@ -1,7 +1,7 @@
 """Quaternion class tests."""
 from math import pi
-from matlib import Qtr
-from matlib import Vec
+from matlib.qtr import Qtr
+from matlib.vec import Vec
 
 
 def test_rotation():

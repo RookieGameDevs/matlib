@@ -1,6 +1,6 @@
 from .util import assert_float_equal
 from .util import assert_vec_equal
-from matlib import Vec
+from matlib.vec import Vec
 import pytest
 
 
