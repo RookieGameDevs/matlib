@@ -6,8 +6,8 @@ from _matlib import lib
 class Vec:
     """Vector."""
 
-    def __init__(self, x=0, y=0, z=0, w=1):
-        self._vec = ffi.new('Vec*')
+    def __init__(self, x=0, y=0, z=0, w=1, vecptr=None):
+        self._vec = vecptr or ffi.new('Vec*')
         self._vec.data[0] = x
         self._vec.data[1] = y
         self._vec.data[2] = z

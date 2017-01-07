@@ -7,8 +7,8 @@ from matlib.vec import Vec
 class Mat:
     """Matrix 4x4."""
 
-    def __init__(self):
-        self._mat = ffi.new('Mat*')
+    def __init__(self, matptr=None):
+        self._mat = matptr or ffi.new('Mat*')
         lib.mat_ident(self._mat)
 
     def ident(self):
