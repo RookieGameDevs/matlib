@@ -18,7 +18,7 @@ def test_init():
     assert_float_equal(v.y, v.x)
 
     v.x = v.y = v.z = v.w = 1
-    assert sum(v._vec.data) == 4
+    assert sum(v._ptr.data) == 4
 
 
 @pytest.mark.parametrize('a,b,result', [

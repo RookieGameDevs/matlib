@@ -7,43 +7,43 @@ from matlib.vec import Vec
 class Mat:
     """Matrix 4x4."""
 
-    def __init__(self, matptr=None):
-        self._mat = matptr or ffi.new('Mat*')
-        lib.mat_ident(self._mat)
+    def __init__(self, ptr=None):
+        self._ptr = ptr or ffi.new('Mat*')
+        lib.mat_ident(self._ptr)
 
     def ident(self):
-        lib.mat_ident(self._mat)
+        lib.mat_ident(self._ptr)
 
     def inverse(self):
         result = Mat()
-        lib.mat_inverse(self._mat, result._mat)
+        lib.mat_inverse(self._ptr, result._ptr)
         return result
 
     def translate(self, tx, ty, tz):
-        lib.mat_translate(self._mat, float(tx), float(ty), float(tz))
+        lib.mat_translate(self._ptr, float(tx), float(ty), float(tz))
 
     def translatev(self, tv):
-        lib.mat_translatev(self._mat, tv._vec)
+        lib.mat_translatev(self._ptr, tv._ptr)
 
     def rotate(self, x, y, z, angle):
-        lib.mat_rotate(self._mat, float(x), float(y), float(z), float(angle))
+        lib.mat_rotate(self._ptr, float(x), float(y), float(z), float(angle))
 
     def rotatev(self, axis, angle):
-        lib.mat_rotatev(self._mat, axis._vec, float(angle))
+        lib.mat_rotatev(self._ptr, axis._ptr, float(angle))
 
     def rotateq(self, rq):
-        lib.mat_rotateq(self._mat, rq._qtr)
+        lib.mat_rotateq(self._ptr, rq._ptr)
 
     def scale(self, sx, sy, sz):
-        lib.mat_scale(self._mat, float(sx), float(sy), float(sz))
+        lib.mat_scale(self._ptr, float(sx), float(sy), float(sz))
 
     def scalev(self, sv):
-        lib.mat_scalev(self._mat, sv._vec)
+        lib.mat_scalev(self._ptr, sv._ptr)
 
     def lookat(self, eye_x, eye_y, eye_z, center_x, center_y, center_z,
             up_x=0, up_y=1, up_z=0):
         lib.mat_lookat(
-            self._mat,
+            self._ptr,
             float(eye_x),
             float(eye_y),
             float(eye_z),
@@ -56,11 +56,11 @@ class Mat:
 
     def lookatv(self, eye, center, up=None):
         up = up or Vec(1, 0, 0)
-        lib.mat_lookatv(self._mat, eye._vec, center._vec, up._vec)
+        lib.mat_lookatv(self._ptr, eye._ptr, center._ptr, up._ptr)
 
     def ortho(self, left, right, top, bottom, near, far):
         lib.mat_ortho(
-            self._mat,
+            self._ptr,
             float(left),
             float(right),
             float(top),
@@ -70,7 +70,7 @@ class Mat:
 
     def persp(self, fovy, aspect, near, far):
         lib.mat_persp(
-            self._mat,
+            self._ptr,
             float(fovy),
             float(aspect),
             float(near),
@@ -79,19 +79,19 @@ class Mat:
     def __mul__(self, other):
         if isinstance(other, Vec):
             result = Vec()
-            lib.mat_mulv(self._mat, other._vec, result._vec)
+            lib.mat_mulv(self._ptr, other._ptr, result._ptr)
             return result
 
         result = Mat()
-        lib.mat_mul(self._mat, other._mat, result._mat)
+        lib.mat_mul(self._ptr, other._ptr, result._ptr)
         return result
 
     def __imul__(self, other):
-        lib.mat_imul(self._mat, other._mat)
+        lib.mat_imul(self._ptr, other._ptr)
         return self
 
     def __getitem__(self, index):
-        d = self._mat.data
+        d = self._ptr.data
 
         try:
             if isinstance(index, slice):
