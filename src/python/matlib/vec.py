@@ -88,6 +88,9 @@ class Vec:
         lib.vec_imulf(self._ptr, -1.0)
         return self
 
+    def __repr__(self):
+        return 'Vec({}, {}, {}, {})'.format(self.x, self.y, self.z, self.w)
+
     def mag(self):
         return lib.vec_mag(self._ptr)
 
