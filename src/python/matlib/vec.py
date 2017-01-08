@@ -84,6 +84,10 @@ class Vec:
         lib.vec_imulf(self._ptr, scalar)
         return self
 
+    def __neg__(self):
+        lib.vec_imulf(self._ptr, -1.0)
+        return self
+
     def mag(self):
         return lib.vec_mag(self._ptr)
 
