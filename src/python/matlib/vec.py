@@ -8,10 +8,11 @@ class Vec:
 
     def __init__(self, x=0, y=0, z=0, w=1, ptr=None):
         self._ptr = ptr or ffi.new('Vec*')
-        self._ptr.data[0] = x
-        self._ptr.data[1] = y
-        self._ptr.data[2] = z
-        self._ptr.data[3] = w
+        if not ptr:
+            self._ptr.data[0] = x
+            self._ptr.data[1] = y
+            self._ptr.data[2] = z
+            self._ptr.data[3] = w
 
     @property
     def x(self):

@@ -8,10 +8,11 @@ class Qtr:
 
     def __init__(self, w=1, x=0, y=0, z=0, ptr=None):
         self._ptr = ptr or ffi.new('Qtr*')
-        self.w = w
-        self.x = x
-        self.y = y
-        self.z = z
+        if not ptr:
+            self.w = w
+            self.x = x
+            self.y = y
+            self.z = z
 
     @property
     def w(self):

@@ -9,7 +9,8 @@ class Mat:
 
     def __init__(self, ptr=None):
         self._ptr = ptr or ffi.new('Mat*')
-        lib.mat_ident(self._ptr)
+        if not ptr:
+            lib.mat_ident(self._ptr)
 
     def ident(self):
         lib.mat_ident(self._ptr)
