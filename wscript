@@ -60,7 +60,7 @@ def build(bld):
     # build library
     bld.shlib(
         target='mat',
-        source=bld.path.ant_glob('src/**/*.c', excl=['src/python']),
+        source=bld.path.ant_glob('src/**/*.c'),
         uselib=deps,
         install_path='${PREFIX}/lib',
         **kwargs)
