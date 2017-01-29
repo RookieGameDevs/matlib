@@ -1,3 +1,11 @@
 .lock*
 .waf*
+bin/
 build/
+lib/
+pyvenv.cfg
+src/python/.eggs/
+src/python/dist/
+src/python/matlib.egg-info/
+src/python/matlib/__pycache__/
+pip-selfcheck.json

@@ -6,26 +6,23 @@ ffi = FFI()
 ffi.set_source(
     '_matlib',
     """
-        #include "matlib.h"
+    #include "matlib.h"
     """,
-    include_dirs=['../../build/include'],
-    library_dirs=['../../build/lib'],
-    libraries=['mat'],
-)
+    libraries=['mat'])
 
 # matlib package
 ffi.cdef(
     """
     struct Mat {
-            float data[16];
+        float data[16];
     };
 
     struct Vec {
-            float data[4];
+        float data[4];
     };
 
     struct Qtr {
-            float data[4];
+        float data[4];
     };
 
     typedef struct Vec Vec;
@@ -159,5 +156,4 @@ ffi.cdef(
 
     void
     qtr_lerp(const Qtr *a, const Qtr *b, float t, Qtr *r_q);
-    """
-)
+    """)
