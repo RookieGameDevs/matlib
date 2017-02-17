@@ -36,26 +36,14 @@ def configure(cfg):
             cflags='-Wall',
             uselib_store='libm')
 
-        # find CBLAS library (of any implementation)
-        cfg.check_cc(
-            msg=u'Checking for BLAS library',
-            lib='blas',
-            header_name='cblas.h',
-            uselib_store='cblas')
-
 
 def build(bld):
-    # compute platform-specific dependencies
+    # platform-specific dependencies and compile options
     deps = []
     kwargs = {}
 
     if sys.platform.startswith('linux'):
-        deps.extend([
-            'libm',
-            'cblas',
-        ])
-    elif sys.platform.startswith('darwin'):
-        kwargs['framework'] = ['Accelerate']
+        deps.append('libm')
 
     # build library
     bld.shlib(

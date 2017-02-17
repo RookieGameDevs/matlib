@@ -1,31 +1,21 @@
 #include "matlib.h"
 #include <stdarg.h>
+#include <stdint.h>
 #include <string.h>
-
-#ifdef __APPLE__
-# include <Accelerate/Accelerate.h>
-#else
-# include <cblas.h>
-#endif
 
 void
 mat_mul(const Mat *a, const Mat *b, Mat *r)
 {
 	memset(r, 0, sizeof(Mat));
-	cblas_sgemm(
-		CblasRowMajor,  // row-major order
-		CblasNoTrans,   // don't transpose the first matrix
-		CblasNoTrans,   // ... neither the second
-		4, 4, 4,        // M, N, K sizes
-		1,              // scalar to multiply first
-		a->data,        // first matrix
-		4,              // stride of the first matrix
-		b->data,        // second matrix
-		4,              // stride
-		1,              // scalar to multiply the result by
-		r->data,        // result matrix pointer
-		4               // stride of result matrix
-	);
+	for (uint8_t i = 0; i < 4; i++) {
+		for (uint8_t j = 0; j < 4; j++) {
+			float sum = 0;
+			for (uint8_t k = 0; k < 4; k++) {
+				sum += a->data[i * 4 + k] * b->data[k * 4 + j];
+			}
+			r->data[i * 4 + j] = sum;
+		}
+	}
 }
 
 void
@@ -40,19 +30,13 @@ void
 mat_mulv(const Mat *m, const Vec *v, Vec *r_v)
 {
 	memset(r_v, 0, sizeof(Vec));
-	cblas_sgemv(
-		CblasRowMajor,  // row-major order
-		CblasNoTrans,   // do not transpose the matrix
-		4, 4,           // M and N dimensions
-		1,              // scalar to premultiply
-		m->data,        // matrix data
-		4,              // matrix stride
-		v->data,        // vector data
-		1,              // vector inter-element increment
-		1,              // scalar to postmultiply
-		r_v->data,      // result buffer
-		1               // result buffer inter-element increment
-	);
+	for (uint8_t i = 0; i < 4; i++) {
+		float sum = 0;
+		for (uint8_t j = 0; j < 4; j++) {
+			sum += m->data[i * 4 + j] * v->data[j];
+		}
+		r_v->data[i] = sum;
+	}
 }
 
 void
@@ -510,7 +494,11 @@ vec_imulf(Vec *v, float scalar)
 float
 vec_dot(const Vec *a, const Vec *b)
 {
-	return cblas_sdot(3, a->data, 1, b->data, 1);
+	float sum = 0;
+	for (uint8_t i = 0; i < 4; i++) {
+		sum += a->data[i] * b->data[i];
+	}
+	return sum;
 }
 
 float
