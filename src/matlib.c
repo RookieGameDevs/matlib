@@ -495,7 +495,7 @@ float
 vec_dot(const Vec *a, const Vec *b)
 {
 	float sum = 0;
-	for (uint8_t i = 0; i < 4; i++) {
+	for (uint8_t i = 0; i < 3; i++) {
 		sum += a->data[i] * b->data[i];
 	}
 	return sum;
