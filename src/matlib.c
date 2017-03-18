@@ -368,7 +368,6 @@ mat_lookatv(Mat *m, const Vec *eye, const Vec *center, const Vec *up)
 		-z.data[0], -z.data[1], -z.data[2], 0.0,
 		0,          0,          0,          1
 	}};
-	mat_translate(&lookat, -eye->data[0], -eye->data[1], -eye->data[2]);
 	memcpy(m, &lookat, sizeof(Mat));
 }
 
