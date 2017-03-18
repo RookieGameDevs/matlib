@@ -553,28 +553,20 @@ void
 qtr_rotate(Qtr *q, float x, float y, float z, float angle)
 {
 	float s = sin(angle / 2.0f);
-	Qtr tmp, rq = {{
-		cos(angle / 2.0f),
-		x * s,
-		y * s,
-		z * s,
-	}};
-	qtr_mul(q, &rq, &tmp);
-	*q = tmp;
+	q->data[0] = cos(angle / 2.0f);
+	q->data[1] = x * s;
+	q->data[2] = y * s;
+	q->data[3] = z * s;
 }
 
 void
 qtr_rotatev(Qtr *q, const Vec *axis, float angle)
 {
 	float s = sin(angle / 2.0f);
-	Qtr tmp, rq = {{
-		cos(angle / 2.0f),
-		axis->data[0] * s,
-		axis->data[1] * s,
-		axis->data[2] * s,
-	}};
-	qtr_mul(q, &rq, &tmp);
-	*q = tmp;
+	q->data[0] = cos(angle / 2.0f);
+	q->data[1] = axis->data[0] * s;
+	q->data[2] = axis->data[1] * s;
+	q->data[3] = axis->data[2] * s;
 }
 
 void
