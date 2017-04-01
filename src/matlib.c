@@ -646,3 +646,70 @@ qtr_lerp(const Qtr *a, const Qtr *b, float t, Qtr *r_q)
 	qtr_add(&at, &bt, r_q);
 	qtr_norm(r_q);
 }
+
+AABB
+aabb(const Vec *v1, const Vec *v2)
+{
+	float xmin = v1->data[0], ymin = v1->data[1], zmin = v1->data[2];
+	float xmax = v1->data[0], ymax = v1->data[1], zmax = v1->data[2];
+	const Vec *v[] = { v1, v2 };
+	for (short i = 0; i < 2; i++) {
+		xmin = fmin(xmin, v[i]->data[0]);
+		xmax = fmax(xmax, v[i]->data[0]);
+		ymin = fmin(ymin, v[i]->data[1]);
+		ymax = fmax(ymax, v[i]->data[1]);
+		zmin = fmin(zmin, v[i]->data[2]);
+		zmax = fmax(zmax, v[i]->data[2]);
+	}
+	AABB bb = {
+		.near = vec(xmax, ymax, zmax, 0),
+		.far = vec(xmin, ymin, zmin, 0),
+	};
+	return bb;
+}
+
+AABB
+aabb_container(AABB *bblist, unsigned int size)
+{
+	float xmin, xmax, ymin, ymax, zmin, zmax;
+	xmin = xmax = ymin = ymax = zmin = zmax = 0;
+
+	int first_run = 1;
+	for (unsigned int k = 0; k < size; k++) {
+		const Vec *v[] = { &bblist[k].far, &bblist[k].near };
+		if (first_run) {
+			xmin = v[0]->data[0];
+			xmax = v[1]->data[0];
+			ymin = v[0]->data[1];
+			ymax = v[1]->data[1];
+			zmin = v[0]->data[2];
+			zmax = v[1]->data[2];
+			first_run = 0;
+			continue;
+		}
+		for (short i = 0; i < 2; i++) {
+			xmin = fmin(xmin, v[i]->data[0]);
+			xmax = fmax(xmax, v[i]->data[0]);
+			ymin = fmin(ymin, v[i]->data[1]);
+			ymax = fmax(ymax, v[i]->data[1]);
+			zmin = fmin(zmin, v[i]->data[2]);
+			zmax = fmax(zmax, v[i]->data[2]);
+		}
+	}
+	AABB bb = {
+		.near = vec(xmax, ymax, zmax, 0),
+		.far = vec(xmin, ymin, zmin, 0),
+	};
+	return bb;
+}
+
+void
+aabb_transform(AABB *bb, const Mat *mat)
+{
+	Vec v1, v2;
+	mat_mulv(mat, &bb->near, &v1);
+	mat_mulv(mat, &bb->far, &v2);
+
+	AABB bb1 = aabb(&v1, &v2);
+	*bb = bb1;
+}

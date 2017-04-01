@@ -9,6 +9,7 @@
 typedef struct Vec Vec;
 typedef struct Mat Mat;
 typedef struct Qtr Qtr;
+typedef struct AABB AABB;
 
 
 /*******************************************************************************
@@ -188,3 +189,20 @@ qtr_norm(Qtr *a);
 
 void
 qtr_lerp(const Qtr *a, const Qtr *b, float t, Qtr *r_q);
+
+/*******************************************************************************
+ * Axis-Aligned Bounding Box
+*******************************************************************************/
+struct AABB {
+	Vec near;
+	Vec far;
+};
+
+AABB
+aabb(const Vec *v1, const Vec *v2);
+
+AABB
+aabb_container(AABB *bblist, unsigned int size);
+
+void
+aabb_transform(AABB *aabb, const Mat *mat);
